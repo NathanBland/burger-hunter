@@ -1,4 +1,6 @@
 # game-starter
+
+[![Join the chat at https://gitter.im/NathanBland/game-starter](https://badges.gitter.im/NathanBland/game-starter.svg)](https://gitter.im/NathanBland/game-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A friendly competition to make a fun game in js!
 
 ## What? Why?
