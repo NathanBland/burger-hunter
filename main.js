@@ -5,6 +5,7 @@ var mainState = {
       // That's where we load the images and sounds
     //game.load.spritesheet('tileset', 'assets/tiny-rpg-town-files/tileset/tileset.png', 16, 16)
     game.load.spritesheet('hero', 'assets/tiny-rpg-town-files/spritesheets/hero.png', 16, 16)
+    game.load.audio('timer', 'assets/sounds/timer-first-half-loop.wav')
     //game.load.atlas('assets', 'assets/assets.png','assets/assets.json')
   },
 
@@ -31,6 +32,10 @@ var mainState = {
     this.player.animations.add('down', [6,7,8], 5)
     //this.asset1 = game.add.sprite(0, 0, 'tileset', 0)
     //this.asset1.scale.setTo(2, 2)
+    this.soundTimer = game.add.audio('timer')
+    this.soundTimer.loop = true
+    this.soundTimer.play()
+    //let backgroundMusic =this.soundTimer 
     
   },
 
