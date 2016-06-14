@@ -61,7 +61,7 @@ var mainState = {
     this.player.animations.add('left', [0,1,2], 5)
     this.player.animations.add('up', [3,4,5], 5)
     this.player.animations.add('down', [6,7,8], 5)
-    this.player.direction = left
+    this.player.direction = 'left'
     /*
     this.wall.enableBody = true;
     this.wall.physicsBodyType = Phaser.Physics.ARCADE;
