@@ -9,11 +9,16 @@ export default class extends Phaser.Sprite {
     this.anchor.setTo(0.5)
     this.scale.setTo(2, 2)
     
-    this.animations.add('left', [0,1,2], 5)
-    this.animations.add('right', [3,4,5], 5)
+    this.animations.add('left', [0,1,2], 15)
+    this.animations.add('right', [3,4,5], 15)
     this.animations.add('up', [6,7,8], 5)
-    this.animations.add('down', [9,10,11], 5)
+    this.animations.add('down', [9,10,11], 15)
     this.direction = 'left'
+    
+    this.game.physics.arcade.enable(this)
+    this.enableBody = true
+    this.physicsBodyType = Phaser.Physics.ARCADE
+    this.collideWorldBounds = true
     
     this.pressLeft = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.pressRight = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
