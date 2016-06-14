@@ -1,37 +1,69 @@
-# game-starter
+# Phaser + ES6 + Webpack.
 
-[![Join the chat at https://gitter.im/whiteboards/game-starter](https://badges.gitter.im/whiteboards/game-starter.svg)](https://gitter.im/whiteboards/game-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-A friendly competition to make a fun game in js!
+#### A bootstrap project for create games with Phaser + ES6 + Webpack.
 
-## What? Why?
-Because we can! Small friendly competitions are a great way to push yourself to learn new things in a non-stessful manner.
+[![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-## Requirements
-All games should meet the requirements on this list.
-- [ ] Defined stack. You must detail what technologies you use.
-- [ ] Must be made with JavaScript and HTML5 based
-  - Allowed Client Game Engines:
-  -  [ ] Vanilla js: if you are crazy enough to do it, by all means.
-  -  [ ] [createjs](http://createjs.com/) 
-  *  [ ] [phaser](http://phaser.io/) (recommended)
-  *  [ ] [pixi](https://github.com/pixijs/pixi.js)
-  *  [ ] [quintus](http://www.html5quintus.com/)
-  *  [ ] [kiwi](http://www.kiwijs.org/)
-
-- [ ] Old school feel (e.g. pacman, space invaders, asteroids, pong, tetris), though it can be original or a clone
-- [ ] Link to an active playable demo
-- [ ] Multiplayer aspect (doesn't necessarily have to be isomorphic)
-- [ ] Sockets (for realtime)
-- [ ] Authenticated users - gameplay optional
-  - To expand on this, you can play without signing in, but you should be able to if you want. 
-- **Submission date is June 24, 2016. Submit with PR**
-
-## Optional enhancements
-- [ ] Multiple levels
-- [ ] High scores
-- [ ] Game chat
-- [ ] Customization 
+## Features
+- JavaScript Standard Style
+- Next generation of Javascript
+- Webpack ready
+- Multiple browser testing
+- Responsive utilities!
 
 
-## Ready, set, go.
-Good luck.
+# Setup
+To use this bootstrap you’ll need to install a few things before you have a working copy of the project.
+
+## 1. Clone this repo:
+
+Navigate into your workspace directory.
+
+Run:
+
+```git clone https://github.com/lean/phaser-es6-webpack.git```
+
+## 2. Install node.js and npm:
+
+https://nodejs.org/en/
+
+
+## 3. Install Webpack and dependencies:
+
+Navigate to the cloned repo’s directory.
+
+Run:
+
+```npm install webpack -g```
+
+and
+
+```npm install```
+
+## 4. Run the development server:
+
+Run:
+
+```npm run dev```
+
+This will run a server so you can run the game in a browser.
+
+Open your browser and enter localhost:3000 into the address bar.
+
+Also this will start a watch process, so u can change the source and the process will recompile and refresh the browser
+
+
+## Compile for deployment:
+
+Run:
+
+```npm run deploy```
+
+This will optimize and minimize the compiled bundle.
+
+## Credits
+Big thanks to this great repos:
+
+https://github.com/belohlavek/phaser-es6-boilerplate
+
+https://github.com/cstuncsik/phaser-es6-demo
