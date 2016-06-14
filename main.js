@@ -15,6 +15,7 @@ var mainState = {
       for (let h=0; h<y;h++){
         if (w === 0 || h === 0 || w===(x-1) || h===(y-1)) {
           let wall = game.add.sprite(w*32, h*32, 'wall')
+          this.player.anchor.setTo(.5)
           this.walls.add(wall)
           game.physics.arcade.enable(wall)
           wall.enableBody = true
@@ -24,12 +25,21 @@ var mainState = {
       }
     }
   },
-  
+  toggle: function() {
+
+    this.showDebug = (this.showDebug) ? false : true;
+
+    if (!this.showDebug)
+    {
+        game.debug.reset();
+    }
+
+  },
   create: function() { 
     // This function is called after the preload function     
     // Here we set up the game, display sprites, etc.
     game.stage.backgroundColor = 'black'
-
+    this.showDebug = true
     // Set the physics system
     game.physics.startSystem(Phaser.Physics.ARCADE)
     game.world.enableBody = true;
@@ -47,10 +57,11 @@ var mainState = {
     
     
     this.player.scale.setTo(2, 2)
-    this.player.anchor.setTo(.5, 1)
+    this.player.anchor.setTo(.5, .5)
     this.player.animations.add('left', [0,1,2], 5)
     this.player.animations.add('up', [3,4,5], 5)
     this.player.animations.add('down', [6,7,8], 5)
+    this.player.direction = left
     /*
     this.wall.enableBody = true;
     this.wall.physicsBodyType = Phaser.Physics.ARCADE;
@@ -66,7 +77,7 @@ var mainState = {
     this.soundTimer.loop = true
     this.soundTimer.play()
     //let backgroundMusic =this.soundTimer 
-    this.buildRoom(10,10)
+    this.buildRoom(40,20)
   },
   update: function() {
       // This function is called 60 times per second    
@@ -77,11 +88,17 @@ var mainState = {
     if (this.left.isDown) {
       this.player.body.velocity.x = -moveSpeed
       this.player.animations.play('left')
-      this.player.scale.x =2;
+      if (this.player.direction !== 'left') {
+        this.player.scale.x *=-1;
+        this.player.direction = 'left' 
+      }
     } else if (this.right.isDown) {
       this.player.body.velocity.x = moveSpeed
-      this.player.scale.x =-2
       this.player.animations.play('left')
+      if (this.player.direction !== 'right') {
+        this.player.scale.x *=-1; 
+        this.player.direction = 'right'
+      }
     } else  {
       this.player.body.velocity.x = 0
       //this.player.animations.stop()
@@ -90,14 +107,27 @@ var mainState = {
     if (this.up.isDown) {
       this.player.body.velocity.y = -moveSpeed
       this.player.animations.play('up')
+      /*if (this.player.direction !== 'up') {
+        this.player.direction = 'up'
+      }*/
     } else if (this.down.isDown) {
       this.player.body.velocity.y = moveSpeed
       this.player.animations.play('down')
+      /*if (this.player.direction !== 'down') {
+        this.player.direction = 'down'
+      }*/
     } else  {
       this.player.body.velocity.y = 0
       //this.player.animations.stop()
     }  
   },
+  render: function() {
+    if (this.showDebug)
+    {
+        game.debug.bodyInfo(this.player, 32, 32);
+        game.debug.body(this.player);
+    }
+  }
 };
 
 // Initialize Phaser, and create a 400px by 490px game
