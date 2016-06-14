@@ -13,7 +13,11 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
+    this.stage.backgroundColor = 'black'
+    this.load.spritesheet('hero', 'assets/tiny-rpg-town-files/spritesheets/hero.png', 16, 16)
+    this.load.image('wall', 'assets/platform_gfx/tiles/block4.png')
+    this.load.audio('timer', 'assets/sounds/timer-first-half-loop.wav')
+    //this.load.image('mushroom', 'assets/images/mushroom2.png')
   }
 
   create () {

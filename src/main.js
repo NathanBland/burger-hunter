@@ -9,10 +9,14 @@ import GameState from './states/Game'
 class Game extends Phaser.Game {
 
   constructor () {
-    let width = document.documentElement.clientWidth > 768 ? 768 : document.documentElement.clientWidth
-    let height = document.documentElement.clientHeight > 1024 ? 1024 : document.documentElement.clientHeight
+    const baseSize = {
+      width: Math.floor(window.innerWidth),
+      height: Math.floor(window.innerHeight),
+    }
+    //let width = document.documentElement.clientWidth > 768 ? 768 : document.documentElement.clientWidth
+    //let height = document.documentElement.clientHeight > 1024 ? 1024 : document.documentElement.clientHeight
 
-    super(width, height, Phaser.AUTO, 'content', null)
+    super(baseSize.width, baseSize.height, Phaser.AUTO, 'content', null)
 
     this.state.add('Boot', BootState, false)
     this.state.add('Splash', SplashState, false)
