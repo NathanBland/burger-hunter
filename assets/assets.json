@@ -1,0 +1,148 @@
+{"frames": [
+
+{
+	"filename": "block1-slope.png",
+	"frame": {"x":445,"y":1,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "block1.png",
+	"frame": {"x":407,"y":29,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "block2.png",
+	"frame": {"x":441,"y":35,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "block3.png",
+	"frame": {"x":249,"y":57,"w":32,"h":23},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":23},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "block4.png",
+	"frame": {"x":407,"y":63,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "block_crumble.png",
+	"frame": {"x":99,"y":85,"w":306,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":306,"h":32},
+	"sourceSize": {"w":320,"h":32}
+},
+{
+	"filename": "fauna1.png",
+	"frame": {"x":317,"y":57,"w":25,"h":21},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":11,"w":25,"h":21},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "fauna2.png",
+	"frame": {"x":283,"y":57,"w":32,"h":22},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":10,"w":32,"h":22},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "fauna3.png",
+	"frame": {"x":344,"y":57,"w":25,"h":21},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":11,"w":25,"h":21},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "food.png",
+	"frame": {"x":249,"y":29,"w":153,"h":26},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":4,"w":153,"h":26},
+	"sourceSize": {"w":160,"h":32}
+},
+{
+	"filename": "grass-tile-2.png",
+	"frame": {"x":99,"y":35,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+{
+	"filename": "grass-tile-3.png",
+	"frame": {"x":149,"y":35,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+{
+	"filename": "grass-tile.png",
+	"frame": {"x":199,"y":35,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+{
+	"filename": "hero.png",
+	"frame": {"x":1,"y":35,"w":48,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":64},
+	"sourceSize": {"w":48,"h":64}
+},
+{
+	"filename": "key.png",
+	"frame": {"x":1,"y":1,"w":442,"h":26},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":442,"h":26},
+	"sourceSize": {"w":448,"h":32}
+},
+{
+	"filename": "npc.png",
+	"frame": {"x":51,"y":35,"w":46,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":46,"h":64},
+	"sourceSize": {"w":48,"h":64}
+},
+{
+	"filename": "spikes1.png",
+	"frame": {"x":441,"y":69,"w":32,"h":31},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":32,"h":31},
+	"sourceSize": {"w":32,"h":32}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "assets.png",
+	"format": "RGBA8888",
+	"size": {"w":478,"h":118},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:27ba7ef60e0ea7b69f9cbe2e7440c198:514a847d1f5a8cb5ac690d7f89f3651d:a759b6bbc8381ac9c472b28f589ad0d6$"
+}
+}
