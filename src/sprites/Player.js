@@ -14,7 +14,7 @@ export default class extends Phaser.Sprite {
     this.animations.add('up', [6,7,8], 5)
     this.animations.add('down', [9,10,11], 15)
     this.direction = 'left'
-    
+    this.health = 10
     this.game.physics.arcade.enable(this)
     this.enableBody = true
     this.physicsBodyType = Phaser.Physics.ARCADE
@@ -27,9 +27,11 @@ export default class extends Phaser.Sprite {
   }
 
   update () {
+    //this.game.debug.body(this)
     const moveSpeed = 150
     if (this.pressLeft.isDown) {
       this.body.velocity.x = -moveSpeed
+      this.body.velocity.y = 0
       this.animations.play('left')
       if (this.direction !== 'left') {
         //this.scale.setTo(2, 2);
@@ -37,24 +39,27 @@ export default class extends Phaser.Sprite {
       }
     } else if (this.pressRight.isDown) {
       this.body.velocity.x = moveSpeed
+      this.body.velocity.y = 0
       this.animations.play('right')
       if (this.direction !== 'right') {
         //this.scale.setTo(-2, 2); 
         this.direction = 'right'
       }
-    } else  {
+    } else {
       this.body.velocity.x = 0
+      this.body.velocity.y = 0
       //this.animations.stop()
-    }
-    
+    } 
     if (this.pressUp.isDown) {
       this.body.velocity.y = -moveSpeed
+      this.body.velocity.x = 0
       this.animations.play('up')
       if (this.direction !== 'up') {
         this.direction = 'up'
       }
     } else if (this.pressDown.isDown) {
       this.body.velocity.y = moveSpeed
+      this.body.velocity.x = 0
       this.animations.play('down')
       if (this.direction !== 'down') {
         this.direction = 'down'

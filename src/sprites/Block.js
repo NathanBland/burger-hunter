@@ -13,7 +13,7 @@ export default class extends Phaser.Sprite {
     this.game.physics.arcade.enable(this)
     this.physicsBodyType = Phaser.Physics.ARCADE
     //this.collideWorldBounds = true
-    
+    this.body.bounce.setTo(1, 1)
     
   }
   update () {
