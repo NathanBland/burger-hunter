@@ -57,10 +57,11 @@ var mainState = {
     
     
     this.player.scale.setTo(2, 2)
-    this.player.anchor.setTo(.5, .5)
+    this.player.anchor.setTo(0.5, 0.5)
     this.player.animations.add('left', [0,1,2], 5)
-    this.player.animations.add('up', [3,4,5], 5)
-    this.player.animations.add('down', [6,7,8], 5)
+    this.player.animations.add('right', [3,4,5], 5)
+    this.player.animations.add('up', [6,7,8], 5)
+    this.player.animations.add('down', [9,10,11], 5)
     this.player.direction = 'left'
     /*
     this.wall.enableBody = true;
@@ -89,14 +90,14 @@ var mainState = {
       this.player.body.velocity.x = -moveSpeed
       this.player.animations.play('left')
       if (this.player.direction !== 'left') {
-        this.player.scale.x *=-1;
+        //this.player.scale.setTo(2, 2);
         this.player.direction = 'left' 
       }
     } else if (this.right.isDown) {
       this.player.body.velocity.x = moveSpeed
-      this.player.animations.play('left')
+      this.player.animations.play('right')
       if (this.player.direction !== 'right') {
-        this.player.scale.x *=-1; 
+        //this.player.scale.setTo(-2, 2); 
         this.player.direction = 'right'
       }
     } else  {
@@ -107,15 +108,15 @@ var mainState = {
     if (this.up.isDown) {
       this.player.body.velocity.y = -moveSpeed
       this.player.animations.play('up')
-      /*if (this.player.direction !== 'up') {
+      if (this.player.direction !== 'up') {
         this.player.direction = 'up'
-      }*/
+      }
     } else if (this.down.isDown) {
       this.player.body.velocity.y = moveSpeed
       this.player.animations.play('down')
-      /*if (this.player.direction !== 'down') {
+      if (this.player.direction !== 'down') {
         this.player.direction = 'down'
-      }*/
+      }
     } else  {
       this.player.body.velocity.y = 0
       //this.player.animations.stop()
