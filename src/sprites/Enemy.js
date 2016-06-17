@@ -16,6 +16,8 @@ export default class extends Phaser.Sprite {
 
     this.game = game
     this.anchor.setTo(0.5)
+    this.canDamage = true
+    this.hasTimer = false
     this.moveSpeed = 150
     this.animations.add('walk', [0,1,2,3,4,5,6], 15)
     this.direction = 'left'

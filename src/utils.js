@@ -1,4 +1,5 @@
 import Block from './sprites/Block.js'
+import Floor from './sprites/Floor.js'
 import Burger from './sprites/BasicBurger.js'
 import Enemy from './sprites/Enemy.js'
 export const centerGameObjects = (objects) => {
@@ -14,27 +15,163 @@ export const setResponsiveWidth = (sprite, percent, parent) => {
 }
 
 export function  buildRoom(game, room, startX, startY, sizeX, sizeY) {
-  for (let w=0; w<sizeX;w++){
-    for (let h=0; h<sizeY;h++){
-      
-        if (w === 0 || h === 0 || w===(sizeX-1) || h===(sizeY-1)) {
+  // for (let w=0; w<sizeX;w++){
+  //   for (let h=0; h<sizeY;h++){
+  //     if (w === 0 || h === 0 || w===(sizeX-1) || h===(sizeY-1)) {
+  //       let wall = new Block({
+  //         game: game,
+  //         x: startX+w*32,
+  //         y: startY+h*32,
+  //         asset: 'wall'
+  //       })
+  //       room.add(wall)
+  //       game.physics.arcade.enable(wall)
+  //       wall.enableBody = true
+  //       wall.physicsBodyType = Phaser.Physics.ARCADE
+  //       wall.body.immovable = true
+  //       //game.debug.bodyInfo(wall, 32, 32);
+  //       //game.debug.body(wall)
+  //     }
+  //     //let's make a maze.
+  //   }
+  // }
+  let n = sizeX*sizeY-1
+  var horiz =[]; 
+  for (var j= 0; j<sizeX+1; j++) horiz[j]= []
+    
+  var  verti =[]; 
+  for (var j= 0; j<sizeX+1; j++) verti[j]= []
+  
+  var here = [Math.floor(Math.random()*sizeX), Math.floor(Math.random()*sizeY)],
+    path = [here],
+    unvisited = [];
+  for (var j = 0; j<sizeX+2; j++) {
+    unvisited[j] = [];
+    for (var k= 0; k<sizeY+1; k++)
+      unvisited[j].push(j>0 && j<sizeX+1 && k>0 && (j != here[0]+1 || k != here[1]+1));
+  }
+  while (0<n) {
+    var potential = [[here[0]+1, here[1]], [here[0],here[1]+1],
+        [here[0]-1, here[1]], [here[0],here[1]-1]];
+    var neighbors = [];
+    for (var j = 0; j < 4; j++) {
+      if (unvisited[potential[j][0]+1][potential[j][1]+1]) {
+        neighbors.push(potential[j]);
+      }
+    }
+    if (neighbors.length) {
+      n = n-1;
+      var next= neighbors[Math.floor(Math.random()*neighbors.length)];
+      unvisited[next[0]+1][next[1]+1]= false;
+      if (next[0] == here[0]) {
+        horiz[next[0]][(next[1]+here[1]-1)/2]= true;
+      } else {
+        verti[(next[0]+here[0]-1)/2][next[1]]= true;
+      }
+      path.push(here = next);
+    } else {
+      here = path.pop();
+    }
+  }
+  let m = {x: sizeX, y: sizeY, horiz: horiz, verti: verti}
+  var text= [];
+  let spots = []
+	for (var j= 0; j<m.x*2+1; j++) {
+		var line= [];
+    
+		if (0 == j%2) {
+			for (var k=0; k<m.y*4+1; k++) {
+				if (0 == k%4) {
           let wall = new Block({
             game: game,
-            x: startX+w*32,
-            y: startY+h*32,
+            x: startX+j*32,
+            y: startY+k*32,
             asset: 'wall'
           })
           room.add(wall)
           game.physics.arcade.enable(wall)
-          wall.enableBody = true
-          wall.physicsBodyType = Phaser.Physics.ARCADE
           wall.body.immovable = true
-          //game.debug.bodyInfo(wall, 32, 32);
-          //game.debug.body(wall)
+					//line[k]= '+';
+          
+				} else {
+					if (j>0 && m.verti[j/2-1][Math.floor(k/4)]) {
+						//line[k]= ' ';
+            let floor = new Floor({
+              game: game,
+              x: startX+j*32,
+              y: startY+k*32,
+              asset: 'floor'
+            })
+            room.add(floor)
+            spots.push({
+              x: startX+j*32,
+              y: startY+k*32,
+            })
+					} else {
+						//line[k]= '-';
+            let wall = new Block({
+              game: game,
+              x: startX+j*32,
+              y: startY+k*32,
+              asset: 'wall'
+            })
+            room.add(wall)
+            game.physics.arcade.enable(wall)
+            wall.body.immovable = true
+          }
         }
-      
+      }
+		} else {
+			for (var k=0; k<m.y*4+1; k++) {
+				if (0 == k%4) {
+					if (k>0 && m.horiz[(j-1)/2][k/4-1]) {
+						//line[k]= ' ';
+            let floor = new Floor({
+              game: game,
+              x: startX+j*32,
+              y: startY+k*32,
+              asset: 'floor'
+            })
+            room.add(floor)
+            spots.push({
+              x: startX+j*32,
+              y: startY+k*32,
+            })
+					} else {
+						//line[k]= '|';
+            let wall = new Block({
+              game: game,
+              x: startX+j*32,
+              y: startY+k*32,
+              asset: 'wall'
+            })
+            room.add(wall)
+            game.physics.arcade.enable(wall)
+            wall.body.immovable = true
+          }
+				} else {
+					//line[k]= ' ';
+          let floor = new Floor({
+              game: game,
+              x: startX+j*32,
+              y: startY+k*32,
+              asset: 'floor'
+            })
+          room.add(floor)
+          spots.push({
+            x: startX+j*32,
+            y: startY+k*32,
+          })
+        }
+      }
     }
-  }
+		if (0 == j) {
+      //line[1]= line[2]= line[3]= ' ';
+    }
+		//if (m.x*2-1 == j) line[4*m.y]= ' ';
+		//text.push(line.join('')+'\r\n');
+	}
+      
   return {
     room: room,
     size: {
@@ -44,7 +181,8 @@ export function  buildRoom(game, room, startX, startY, sizeX, sizeY) {
     pos: {
       startX: startX,
       startY: startY
-    }
+    },
+    open: spots
   }
 }
 
@@ -63,29 +201,33 @@ export function  buildBurger(game, burgers, x, y) {
   //return burger
 }
 
-function getRand (min, max) {
+export function getRand (min, max) {
   return Math.random() * (max - min) + min
 }
 
 export function buildBurgers(game, room, burgers, num) {
-  let maxX = (room.pos.startX+(room.size.width) * 32)-32
-  let maxY = (room.pos.startY+(room.size.height) * 32)-32
-  
-  for (let x=0; x<num;x++){ 
-    buildBurger(game, burgers, getRand(room.pos.startX+32, maxX), getRand(room.pos.startY+32, maxY))
+  //let maxX = (room.pos.startX+(room.size.width) * 32)-32
+  //let maxY = (room.pos.startY+(room.size.height) * 32)-32
+  //console.log(room)
+  for (let x=0; x<num;x++){
+    let spot = Math.floor(getRand(0, room.open.length)) 
+    //console.log('[x]', x, 'trying..',spot, room.open[spot])
+    buildBurger(game, burgers, room.open[spot].x+16, room.open[spot].y+16)
     game.burgerCount += 1
+    room.open.splice(spot, 1);
+    //console.log('complete.')
   }
 }
 
 export function makeEnemies(game, room, enemiesGroup, num) {
-  let maxX = (room.pos.startX+(room.size.width) * 32)-32
-  let maxY = (room.pos.startY+(room.size.height) * 32)-32
   let safeZone = 32*8
   for (let x=0; x<num;x++){ 
+    let spot = Math.floor(getRand(0, room.open.length))
+    
     let enemy = new Enemy({
       game: game,
-      x: getRand(room.pos.startX+48, maxX),
-      y: getRand(room.pos.startY+48, maxY),
+      x: room.open[spot].x,
+      y: room.open[spot].y,
       asset: 'enemy'
     })
     if (enemy.body.x < room.pos.startX+safeZone && enemy.body.y < room.pos.startY+safeZone) {
@@ -93,6 +235,7 @@ export function makeEnemies(game, room, enemiesGroup, num) {
       x -= 1
     } else {
       enemiesGroup.add(enemy)
+      room.open.splice(spot, 1)
     }
     //game.physics.arcade.enable(burger)
     //burger.enableBody = true

@@ -17,6 +17,7 @@ export default class extends Phaser.Sprite {
     
   }
   update () {
+    
     this.game.physics.arcade.collide(this.game.player, this)
     //this.game.physics.arcade.collide(this, this.border)
     if (Math.abs(this.body.velocity.x) > 0) {
