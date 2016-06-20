@@ -23,9 +23,9 @@ export default class extends Phaser.Sprite {
     this.max = 25
     this.min = 10
     //moveSelf()
-    this.timer = game.time.create(false)
-    this.timer.loop(500, moveSelf, this)
-    this.timer.start() 
+    //this.timer = game.time.create(false)
+    //this.timer.loop(500, moveSelf, this)
+    //this.timer.start() 
   }
 
   update () {

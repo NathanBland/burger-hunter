@@ -19,10 +19,12 @@ export default class extends Phaser.State {
     this.load.spritesheet('basic-burger', 'assets/platform_gfx/tiles/food.png', 32, 32)
     this.load.image('wall', 'assets/platform_gfx/tiles/block1.png')
     this.load.image('floor', 'assets/dirt.png')
+    this.game.load.image('gameMask', 'assets/mask.png');
+    this.game.load.image('particle', 'assets/particle.png');
     this.load.audio('timer', 'assets/sounds/timer-first-half-loop.wav')
     this.load.audio('hit', 'assets/sounds/timer-ends-time-up.wav')
-    this.game.load.image('gameMask', 'assets/mask.png');
-    //this.load.image('mushroom', 'assets/images/mushroom2.png')
+    this.load.audio('damage', 'assets/sounds/collect-normal-coin.wav')    
+   
     this.game.sound.stopAll()
   }
 

@@ -19,6 +19,7 @@ export default class extends Phaser.Sprite {
     this.canDamage = true
     this.hasTimer = false
     this.moveSpeed = 150
+    this.maxSpeed = 400
     this.animations.add('walk', [0,1,2,3,4,5,6], 15)
     this.direction = 'left'
     this.health = 10
@@ -30,12 +31,34 @@ export default class extends Phaser.Sprite {
     this.timer = game.time.create(false)
     this.timer.loop(500, moveSelf, this)
     this.timer.start() 
+    //this.barProgress = 10;
+    this.healthText = this.game.add.text(0, 40, 'health is:'+this.health, {
+        font: '40px Arial',
+        fill: 'green',
+        align: 'center'
+    });
     
+    this.addChild(this.healthText)
+    //this.myEnemy.add(this)
+    //this.myEnemy.add(this.bar)
+    this.game.add.existing(this.healthText)
     this.body.setSize(25, 25, 4, 4)
+    game.world.bringToTop(this.healthText)
   }
 
   update () {
     //this.game.debug.body(this)
+    this.healthText.setText(this.health)
+    if (this.health < 4) {
+      this.tint = 0x660000 
+    } else if (this.health < 6) {
+      this.tint = 0x990000
+    } else if (this.health < 10) {
+      this.tint = 0xFF0000
+    }
+    if (this.health <= 0) {
+      this.kill()
+    }
     this.animations.play('walk')
     if (Math.abs(this.body.velocity.x) > 0) {
       if (this.body.velocity.x > 0) {
