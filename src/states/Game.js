@@ -64,6 +64,7 @@ function openLevel (gameState) {
     y: portalSpot2.y,
     asset: 'portal'
   })
+  portal1.setTarget(portal2)
   gameState.game.add.existing(portal2)
  }
 

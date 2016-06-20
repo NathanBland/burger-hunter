@@ -2,7 +2,13 @@ import Phaser from 'phaser'
 
 function teleport(portal, player) {
   // projectile.kill()
-  
+  if (portal.target) {
+    player.moves = false
+    player.x = portal.target.x
+    player.y = portal.target.y
+    player.moves = true
+  }
+  console.log('teleport!')
 }
 export default class extends Phaser.Sprite {
 
