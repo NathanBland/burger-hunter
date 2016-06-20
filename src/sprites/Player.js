@@ -35,14 +35,14 @@ export default class extends Phaser.Sprite {
     this.animations.add('down', [9,10,11], 15)
     this.direction = 'left'
     this.health = 10
-    this.moveSpeed = 225
+    this.moveSpeed = 224
     this.energy = 10
     this.maxEnergy = 10
     this.game.physics.arcade.enable(this)
     this.enableBody = true
     this.physicsBodyType = Phaser.Physics.ARCADE
     this.collideWorldBounds = true
-    this.body.setSize(6, 6, 10, 10)
+    this.body.setSize(11, 11, 3, 3)
     this.lastAttack = Date.now()
     this.pressLeft = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
     this.pressRight = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
@@ -68,7 +68,7 @@ export default class extends Phaser.Sprite {
           game: this.game,
           x: this.x,
           y: this.y,
-          asset: 'particle'
+          asset: 'basicMagic'
         })
         this.energy -= 1
         //console.log('firing towards:', this.direction)
@@ -87,8 +87,8 @@ export default class extends Phaser.Sprite {
       }
     }
     if (this.pressShift.isDown) {
-      this.moveSpeed = 350
-      console.log('speed change!')
+      this.moveSpeed = 256
+      //console.log('speed change!')
     } else {
       this.moveSpeed = 225
     }

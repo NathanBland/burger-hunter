@@ -4,12 +4,14 @@ import Player from '../sprites/Player'
 import Block from '../sprites/Block'
 import Enemy from '../sprites/Enemy'
 import BasicMagic from '../sprites/Magic/Basic'
+import Portal from '../sprites/Portal'
 import {getRand, makeEnemies, buildRoom, buildBurgers, setResponsiveWidth} from '../utils'
 
 function eatBurger(player, burger) {
   burger.kill()
   game.burgerCount -= 1
   player.health += 0.5
+  player.energy += 0.5
 }
 
 function restartSounds () {
@@ -43,6 +45,62 @@ function takeHit(player, enemy) {
     return false
   }
 }
+function openLevel (gameState) {
+  gameState.currentLevel += 1
+  console.log('new map unlocked..')
+  let portalSpot = gameState.currentRoom.open[gameState.currentRoom.open.length-1]
+  let portal1 = new Portal({
+    game: gameState.game,
+    x: portalSpot.x,
+    y: portalSpot.y,
+    asset: 'portal'
+  })
+  gameState.game.add.existing(portal1)
+  let newLevel = buildLevel(gameState, 15)
+  let portalSpot2 = gameState.currentRoom.open[0]
+  let portal2 = new Portal({
+    game: gameState.game,
+    x: portalSpot2.x,
+    y: portalSpot2.y,
+    asset: 'portal'
+  })
+  gameState.game.add.existing(portal2)
+ }
+
+function buildLevel (gameState, size) {
+  let myGame = gameState.game
+  let room = game.add.group()
+  let level = gameState.currentLevel
+  let start = {
+    x: myGame.world.centerX-64,
+    y: myGame.world.centerY-64
+  }
+  if (level > 1) {
+    start.x = (myGame.world.centerX-58) + ((size.x) || size)*38
+    start.y =  (myGame.world.centerY-54) + ((size.y) || size)*42
+  }
+  gameState.currentRoom = buildRoom(myGame, room, 
+    start.x, start.y, size.x || size, size.y || size)
+  myGame.rooms.add(room)
+    
+  buildBurgers(myGame, gameState.currentRoom, gameState.burgers, 50*level)
+  makeEnemies(myGame, gameState.currentRoom, myGame.enemies, 10*level)
+  
+    
+  //this.game.add.existing(this.enemy)
+  gameState.game.add.existing(gameState.game.rooms)
+  //this.game.add.existing(this.border)
+  gameState.game.add.existing(gameState.burgers)
+  gameState.game.add.existing(gameState.game.enemies)
+  
+  return {
+    startX: gameState.currentRoom.startX,
+    startY: gameState.currentRoom.startY,
+    endX:  gameState.currentRoom.endX,
+    endY:  gameState.currentRoom.endY
+  }
+}
+
 export default class extends Phaser.State {
   init () {}
   preload () {}
@@ -51,7 +109,6 @@ export default class extends Phaser.State {
     let gameSize = 1920*32
     let banner = this.add.text(gameSize/2, (gameSize/2)-130, 'Burger-Hunter')
     this.gameMask = game.add.sprite(0, 0, 'gameMask');
-    //this.gameMask.scale.setTo(0.5, 0.5)
     this.gameMask.width = Math.floor(window.innerWidth)
     this.gameMask.height = Math.floor(window.innerHeight)
     //this.gameMask.tint = 'red'
@@ -64,16 +121,8 @@ export default class extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.world.enableBody = true;
     
-    /*this.enemy = new Enemy({
-      game: this.game,
-      x: this.game.world.centerX+256,
-      y: this.game.world.centerY+256,
-      asset: 'enemy'
-    })
-    */
-    //buildBurger
-    
-    this.game.room1 = game.add.group()
+    this.currentLevel = 1
+    // this.game.room1 = game.add.group()
     this.game.rooms = game.add.group() 
     this.burgers = game.add.group()
     this.game.enemies = game.add.group()
@@ -91,7 +140,6 @@ export default class extends Phaser.State {
         fill: 'green',
         align: 'center'
     });
-    
     this.game.healthText.fixedToCamera = true
     
     this.game.energyText = this.game.add.text(0, 65, 'Energy:' + 10, {
@@ -99,7 +147,6 @@ export default class extends Phaser.State {
         fill: 'blue',
         align: 'center'
     });
-    
     this.game.energyText.fixedToCamera = true
     
     //build inventory
@@ -114,12 +161,19 @@ export default class extends Phaser.State {
       this.game.inv.push(slot)
     }
     
-    //this.game.burgerText.anchor.setTo(0.5, 0.5)
-    this.currentRoom = buildRoom(this.game, this.game.room1, this.game.world.centerX-64, this.game.world.centerY-64, 20, 20)
-    this.game.rooms.add(this.game.room1)
+    this.coords  = buildLevel(this, {
+      x: 10,
+      y: 5
+    })
+    console.log('coords:', this.coords)
+    this.player = new Player({
+      game: this.game,
+      x: this.currentRoom.open[0].x+16,
+      y: this.currentRoom.open[0].y+16,
+      asset: 'hero'
+    })
     
-    buildBurgers(this.game, this.currentRoom, this.burgers, 50)
-    makeEnemies(this.game, this.currentRoom, this.game.enemies, 150)
+    this.game.add.existing(this.player)
   
     game.soundTimer = game.add.audio('timer')
     game.hit = game.add.audio('hit')
@@ -130,28 +184,6 @@ export default class extends Phaser.State {
       game.soundTimer.restart()
       return restartSounds()
     }, 3000)
-    
-    
-    let spot = Math.floor(getRand(0, this.currentRoom.open.length))
-    // this.player = new Player({
-    //   game: this.game,
-    //   x: this.currentRoom.open[spot].x+16,
-    //   y: this.currentRoom.open[spot].y+16,
-    //   asset: 'hero'
-    // })
-    this.player = new Player({
-      game: this.game,
-      x: this.game.world.centerX-16,
-      y: this.game.world.centerY-16,
-      asset: 'hero'
-    })
-    
-    this.game.add.existing(this.player)
-    //this.game.add.existing(this.enemy)
-    this.game.add.existing(this.game.rooms)
-    //this.game.add.existing(this.border)
-    this.game.add.existing(this.burgers)
-    this.game.add.existing(this.game.enemies)
     
     this.game.camera.follow(this.player)
     
@@ -166,6 +198,11 @@ export default class extends Phaser.State {
     })
   }
   update () {
+    
+    if (this.game.burgerCount < 1) {
+      openLevel(this)
+    }
+    
     this.game.physics.arcade.collide(this.player, this.border)
     //this.game.physics.arcade.collide(this.game.enemies, this.border)
     this.game.physics.arcade.collide(this.player, this.game.enemies, takeHit, null)

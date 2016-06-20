@@ -15,26 +15,6 @@ export const setResponsiveWidth = (sprite, percent, parent) => {
 }
 
 export function  buildRoom(game, room, startX, startY, sizeX, sizeY) {
-  // for (let w=0; w<sizeX;w++){
-  //   for (let h=0; h<sizeY;h++){
-  //     if (w === 0 || h === 0 || w===(sizeX-1) || h===(sizeY-1)) {
-  //       let wall = new Block({
-  //         game: game,
-  //         x: startX+w*32,
-  //         y: startY+h*32,
-  //         asset: 'wall'
-  //       })
-  //       room.add(wall)
-  //       game.physics.arcade.enable(wall)
-  //       wall.enableBody = true
-  //       wall.physicsBodyType = Phaser.Physics.ARCADE
-  //       wall.body.immovable = true
-  //       //game.debug.bodyInfo(wall, 32, 32);
-  //       //game.debug.body(wall)
-  //     }
-  //     //let's make a maze.
-  //   }
-  // }
   let n = sizeX*sizeY-1
   var horiz =[]; 
   for (var j= 0; j<sizeX+1; j++) horiz[j]= []
@@ -76,6 +56,7 @@ export function  buildRoom(game, room, startX, startY, sizeX, sizeY) {
   let m = {x: sizeX, y: sizeY, horiz: horiz, verti: verti}
   var text= [];
   let spots = []
+  let end= {}
 	for (var j= 0; j<m.x*2+1; j++) {
 		var line= [];
     
@@ -166,9 +147,31 @@ export function  buildRoom(game, room, startX, startY, sizeX, sizeY) {
       }
     }
 		if (0 == j) {
-      //line[1]= line[2]= line[3]= ' ';
+      // //line[1]= line[2]= line[3]= ' ';
+      // let block = new Block({
+      //   game: game,
+      //   x: startX+32,
+      //   y: startY,
+      //   asset: 'wall4'
+      // })
+      // room.add(block)
+      // game.physics.arcade.enable(block)
+      // block.body.immovable = true
     }
-		//if (m.x*2-1 == j) line[4*m.y]= ' ';
+		if (m.x*2-1 == j) {
+      // line[4*m.y]= ' '
+      let block = new Block({
+        game: game,
+        x: startX+j*32,
+        y: (startY+k*32)-64,
+        asset: 'wall4'
+      })
+      end.x = startX+j*32
+      end.y = (startY+k*32)-64
+      room.add(block)
+      game.physics.arcade.enable(block)
+      //block.body.immovable = true
+    }
 		//text.push(line.join('')+'\r\n');
 	}
       
@@ -180,7 +183,9 @@ export function  buildRoom(game, room, startX, startY, sizeX, sizeY) {
     },
     pos: {
       startX: startX,
-      startY: startY
+      startY: startY,
+      endX: end.x,
+      endY: end.y
     },
     open: spots
   }

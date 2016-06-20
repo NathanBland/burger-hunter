@@ -17,7 +17,10 @@ export default class extends Phaser.State {
     this.load.spritesheet('hero', 'assets/tiny-rpg-town-files/spritesheets/hero.png', 16, 16)
     this.load.spritesheet('enemy', 'assets/platform_gfx/baddies/totem_walk.png', 32, 32)
     this.load.spritesheet('basic-burger', 'assets/platform_gfx/tiles/food.png', 32, 32)
+    this.load.spritesheet('basicMagic', 'assets/particleSheet.png', 16, 16)
+    this.load.spritesheet('portal', 'assets/portalSheet.png', 32, 32)
     this.load.image('wall', 'assets/platform_gfx/tiles/block1.png')
+    this.load.image('wall4', 'assets/platform_gfx/tiles/block4.png')
     this.load.image('floor', 'assets/dirt.png')
     this.game.load.image('gameMask', 'assets/mask.png');
     this.game.load.image('particle', 'assets/particle.png');
