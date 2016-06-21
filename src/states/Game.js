@@ -46,7 +46,7 @@ function takeHit(player, enemy) {
   }
 }
 function openLevel (gameState) {
-  gameState.currentLevel += 1
+  gameState.game.currentLevel += 1
   console.log('new map unlocked..')
   let portalSpot = gameState.currentRoom.open[gameState.currentRoom.open.length-1]
   let portal1 = new Portal({
@@ -56,7 +56,7 @@ function openLevel (gameState) {
     asset: 'portal'
   })
   gameState.game.add.existing(portal1)
-  let newLevel = buildLevel(gameState, 15)
+  let newLevel = buildLevel(gameState, gameState.game.currentLevel*5)
   let portalSpot2 = gameState.currentRoom.open[0]
   let portal2 = new Portal({
     game: gameState.game,
@@ -71,18 +71,22 @@ function openLevel (gameState) {
 function buildLevel (gameState, size) {
   let myGame = gameState.game
   let room = game.add.group()
-  let level = gameState.currentLevel
+  let level = gameState.game.currentLevel
   let start = {
     x: myGame.world.centerX-64,
     y: myGame.world.centerY-64
   }
   if (level > 1) {
-    start.x = (myGame.world.centerX-58) + ((size.x) || size)*38
-    start.y =  (myGame.world.centerY-54) + ((size.y) || size)*42
+    console.log('building at x:',gameState.currentRoom.pos.startX)
+    console.log('building at Y:',gameState.currentRoom.pos.startY)
+    start.x = (gameState.currentRoom.pos.endX)
+    start.y =  (gameState.currentRoom.pos.endY)
   }
+  console.log('starting at:', start)
   gameState.currentRoom = buildRoom(myGame, room, 
     start.x, start.y, size.x || size, size.y || size)
   myGame.rooms.add(room)
+  console.log('currentRoom:', gameState.currentRoom)
     
   buildBurgers(myGame, gameState.currentRoom, gameState.burgers, 50*level)
   makeEnemies(myGame, gameState.currentRoom, myGame.enemies, 10*level)
@@ -122,19 +126,26 @@ export default class extends Phaser.State {
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
     this.game.world.enableBody = true;
     
-    this.currentLevel = 1
+    this.game.currentLevel = 1
     // this.game.room1 = game.add.group()
     this.game.rooms = game.add.group() 
     this.burgers = game.add.group()
     this.game.enemies = game.add.group()
     this.game.burgerCount = 0
     
-    this.game.burgerText = this.game.add.text(0, 0, 'burgers left:' + this.game.burgerCount, {
+    this.game.burgerText = this.game.add.text(0, 0, 'burgers left: ' + this.game.burgerCount, {
         font: '30px Arial',
         fill: '#ff0044',
         align: 'center'
     });
     this.game.burgerText.fixedToCamera = true
+    
+    this.game.levelText = this.game.add.text(250, 0, 'Level: ' + this.game.currentLevel, {
+        font: '30px Arial',
+        fill: '#ff0044',
+        align: 'center'
+    });
+    this.game.levelText.fixedToCamera = true
     
     this.game.healthText = this.game.add.text(0, 35, 'Health:' + 10, {
         font: '30px Arial',
@@ -167,14 +178,14 @@ export default class extends Phaser.State {
       y: 5
     })
     console.log('coords:', this.coords)
-    this.player = new Player({
+    this.game.player = new Player({
       game: this.game,
       x: this.currentRoom.open[0].x+16,
       y: this.currentRoom.open[0].y+16,
       asset: 'hero'
     })
     
-    this.game.add.existing(this.player)
+    this.game.add.existing(this.game.player)
   
     game.soundTimer = game.add.audio('timer')
     game.hit = game.add.audio('hit')
@@ -186,11 +197,12 @@ export default class extends Phaser.State {
       return restartSounds()
     }, 3000)
     
-    this.game.camera.follow(this.player)
+    this.game.camera.follow(this.game.player)
     
     //game.camera.deadzone = new Phaser.Rectangle(100, 100, 100, 400, 400);
     game.world.bringToTop(this.gameMask)
     game.world.bringToTop(this.game.burgerText)
+    game.world.bringToTop(this.game.levelText)
     game.world.bringToTop(this.game.healthText)
     game.world.bringToTop(this.game.energyText)
     // game.world.bringToTop(this.game.inv1)
@@ -204,27 +216,28 @@ export default class extends Phaser.State {
       openLevel(this)
     }
     
-    this.game.physics.arcade.collide(this.player, this.border)
+    this.game.physics.arcade.collide(this.game.player, this.border)
     //this.game.physics.arcade.collide(this.game.enemies, this.border)
-    this.game.physics.arcade.collide(this.player, this.game.enemies, takeHit, null)
-    this.game.physics.arcade.collide(this.player, this.burgers, eatBurger, null)
-    this.game.rooms.forEach((room) => {
-      this.game.physics.arcade.collide(this.player, room)
-      this.game.physics.arcade.collide(this.game.enemies, room)
-      //this.game.physics.arcade.collide(room, this.border)
-      this.game.physics.arcade.collide(this.burgers, room)
-    })
+    this.game.physics.arcade.collide(this.game.player, this.game.enemies, takeHit, null)
+    this.game.physics.arcade.collide(this.game.player, this.burgers, eatBurger, null)
+    // this.game.rooms.forEach((room) => {
+    //   this.game.physics.arcade.collide(this.game.player, room)
+    //   this.game.physics.arcade.collide(this.game.enemies, room)
+    //   //this.game.physics.arcade.collide(room, this.border)
+    //   this.game.physics.arcade.collide(this.burgers, room)
+    // })
     this.game.burgerText.setText('burgers left: ' + this.game.burgerCount)
-    this.game.healthText.setText('Health: ' + this.player.health)
-    this.game.energyText.setText('Energy: ' + this.player.energy)
+    this.game.healthText.setText('Health: ' + this.game.player.health)
+    this.game.energyText.setText('Energy: ' + this.game.player.energy)
+    this.game.levelText.setText('Level: ' + this.game.currentLevel)
   }
 
   render () {
     if (__DEV__) {
-      //this.game.debug.spriteInfo(this.player, 32, 32)
-      //this.game.debug.bodyInfo(this.player, 32, 32);
-      //this.game.debug.body(this.player);
-      //this.game.debug.bodyInfo(this.player, 32, 32);
+      //this.game.debug.spriteInfo(this.game.player, 32, 32)
+      //this.game.debug.bodyInfo(this.game.player, 32, 32);
+      //this.game.debug.body(this.game.player);
+      //this.game.debug.bodyInfo(this.game.player, 32, 32);
       this.game.debug.body(this.game.rooms);
     }
   }

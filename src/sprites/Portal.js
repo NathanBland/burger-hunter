@@ -4,8 +4,8 @@ function teleport(portal, player) {
   // projectile.kill()
   if (portal.target) {
     player.moves = false
-    player.x = portal.target.x
-    player.y = portal.target.y
+    player.x = portal.target.x+32
+    player.y = portal.target.y+32
     player.moves = true
   }
   console.log('teleport!')
@@ -22,6 +22,7 @@ export default class extends Phaser.Sprite {
     this.game.physics.arcade.enable(this)
     this.physicsBodyType = Phaser.Physics.ARCADE
     this.body.bounce.setTo(1, 1)
+    this.body.immovable = true
     // this.anchor.setTo(0.5)
     this.moveSpeed = 300
     this.target = null
